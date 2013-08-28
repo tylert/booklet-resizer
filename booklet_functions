@@ -1,0 +1,45 @@
+#!/bin/bash
+
+function convert_pdf_to_ps
+{
+  local srcfile="${1}"
+  local dstfile="${2}"
+
+  echo "Converting '${srcfile}' to '${dstfile}' (PDF -> PS)"
+  pdf2ps "${srcfile}" "${dstfile}"
+}
+
+function reorder_ps_pages
+{
+  local srcfile="${1}"
+  local dstfile="${2}"
+
+  echo "Reordering '${srcfile}' to '${dstfile}' (pages 1, 2, 3, 4 -> pages 4, 1, 2, 3)"
+  psbook -s4 "${srcfile}" > "${dstfile}"
+}
+
+function retile_ps_pages
+{
+  local srcfile="${1}"
+  local dstfile="${2}"
+
+  echo "Retiling '${srcfile}' to '${dstfile}' (2 pages -> 1 page)"
+  psnup -2 "${srcfile}" > "${dstfile}"
+}
+
+function convert_ps_to_pdf
+{
+  local srcfile="${1}"
+  local dstfile="${2}"
+
+  echo "Converting '${srcfile}' to '${dstfile}' (PS -> PDF)"
+  ps2pdf "${srcfile}" "${dstfile}"
+}
+
+function join_pdf_pages
+{
+  local srcfiles="${@}"
+  local dstfile="temp.pdf"
+
+  pdftk "${srcfiles}" cat output "${dstfile}"
+}
