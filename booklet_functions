@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function convert_pdf_to_ps
 {
@@ -38,8 +38,9 @@ function convert_ps_to_pdf
 
 function join_pdf_pages
 {
-  local srcfiles="${@}"
+  local srcfiles=${@}
   local dstfile="temp.pdf"
 
-  pdftk "${srcfiles}" cat output "${dstfile}"
+  echo "Joining '${srcfiles}' into '${dstfile}' (${#@} files -> 1 file)"
+  pdftk ${srcfiles} cat output "${dstfile}"
 }
